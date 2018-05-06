@@ -41,12 +41,14 @@ public class LoginActivity extends AppCompatActivity {
                         try{
                             JSONObject jsonResponse = new JSONObject(response);
                             if(jsonResponse != null) {
+                                int idCustomer = jsonResponse.getInt("id");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage("Login success.");
                                 builder.create();
                                 builder.show();
 
                                 Intent loginInt = new Intent(LoginActivity.this, MainActivity.class);
+                                loginInt.putExtra("idCustomer", idCustomer);
                                 LoginActivity.this.startActivity(loginInt);
                             }
                         } catch(JSONException e) {

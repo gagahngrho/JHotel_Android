@@ -1,7 +1,10 @@
 package com.gagahblwgmail.jhotel_android_anggorogagahn;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.android.volley.RequestQueue;
@@ -16,7 +19,7 @@ import java.util.HashMap;
 
 import static com.android.volley.toolbox.Volley.newRequestQueue;
 
-public class MainActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     MenuListAdapter listAdapter;
     ExpandableListView expListView;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Hotel> listHotel = new ArrayList<>();
     private ArrayList<Room> listRoom = new ArrayList<>();
     private HashMap<Hotel, ArrayList<Room>> childMapping = new HashMap<>();
+    private int currentUserId;
 
     HashMap<String, Hotel> hotelHashMap = new HashMap<>();
     HashMap<String, ArrayList<Room>> roomsMap = new HashMap<>();
@@ -32,7 +36,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
+
+        final Button pesananButton = (Button) findViewById(R.id.selesai);
+
+        Intent i = getIntent();
+        currentUserId = i.getIntExtra("idCustomer", 0);
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.expanded_menu);
@@ -44,6 +53,32 @@ public class MainActivity extends AppCompatActivity {
 
         // setting list adapter
         //expListView.setAdapter(listAdapter);
+
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                        int childPosition, long id) {
+                Room selectedRoom = childMapping.get(listHotel.get(groupPosition)).get(childPosition);
+                Hotel selectedHotel = listHotel.get(groupPosition);
+
+                Intent intBuatPesanan = new Intent(MenuActivity.this, BuatPesananActivity.class);
+                intBuatPesanan.putExtra("idCustomer", currentUserId);
+                intBuatPesanan.putExtra("roomNumber", selectedRoom.getRoomNumber());
+                intBuatPesanan.putExtra("idHotel", selectedHotel.getId());
+                intBuatPesanan.putExtra("tariff", selectedRoom.getDailyTariff());
+                MenuActivity.this.startActivity(intBuatPesanan);
+                return false;
+            }
+        });
+
+        pesananButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intSelesaiPesanan = new Intent(MenuActivity.this, SelesaiPesananActivity.class);
+                intSelesaiPesanan.putExtra("idCustomer", currentUserId);
+                MenuActivity.this.startActivity(intSelesaiPesanan);
+            }
+        });
     }
 
     protected void refreshList()
@@ -64,12 +99,13 @@ public class MainActivity extends AppCompatActivity {
                         hotelHashMap.put(h.getNama(), h);
                         Room room = new Room(room_temp.getString("nomorKamar"), room_temp.getString("statusKamar"),
                                 room_temp.getDouble("dailyTariff"), room_temp.getString("tipeKamar"));
+
                         if(!roomsMap.containsKey(h.getNama())) {
-                            //ArrayList<Room> listRoom = new ArrayList<>();
+                            ArrayList<Room> listRoom = new ArrayList<>();
                             listRoom.add(room);
                             roomsMap.put(h.getNama(), listRoom);
                         } else {
-                            //ArrayList<Room> listRoom = roomsMap.get(h.getNama());
+                            ArrayList<Room> listRoom = roomsMap.get(h.getNama());
                             listRoom.add(room);
                             roomsMap.put(h.getNama(), listRoom);
                         }
@@ -80,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         childMapping.put(hotelHashMap.get(key), roomsMap.get(key));
                     }
 
-                    listAdapter = new MenuListAdapter(MainActivity.this, listHotel, childMapping);
+                    listAdapter = new MenuListAdapter(MenuActivity.this, listHotel, childMapping);
                     expListView.setAdapter(listAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -90,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         MenuRequest menuRequest = new MenuRequest(responseListener);
-        RequestQueue queue = newRequestQueue(MainActivity.this);
+        RequestQueue queue = newRequestQueue(MenuActivity.this);
         queue.add(menuRequest);
     }
 
