@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                                 builder.create();
                                 builder.show();
 
-                                Intent loginInt = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent loginInt = new Intent(LoginActivity.this, MenuActivity.class);
                                 loginInt.putExtra("idCustomer", idCustomer);
                                 LoginActivity.this.startActivity(loginInt);
                             }

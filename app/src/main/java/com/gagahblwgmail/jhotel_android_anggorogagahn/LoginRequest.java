@@ -6,7 +6,8 @@ import java.util.HashMap;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
-public class LoginRequest extends StringRequest {
+public class LoginRequest extends StringRequest
+{
     private static final String Login_URL = "http://10.0.2.2:8080/logincust";
     private Map<String, String> params;
 
