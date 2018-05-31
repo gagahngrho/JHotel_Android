@@ -1,26 +1,29 @@
 package com.gagahblwgmail.jhotel_android_anggorogagahn;
 
-import com.android.volley.toolbox.StringRequest;import com.android.volley.Response;
-        import com.android.volley.toolbox.StringRequest;
 
-        import java.util.HashMap;
-        import java.util.Map;
 
-public class PesananBatalRequest extends StringRequest
-{
-    private static final String PesananSelesai_URL = "http://10.0.2.2:8080/cancelpesanan";
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Luthfi Musthafa on 5/6/2018.
+ */
+
+public class PesananBatalRequest extends StringRequest {
+    private static final String PesananBatal_URL = "http://192.168.1.101:8080/cancelpesanan";
     private Map<String, String> params;
 
-    public PesananBatalRequest(int idPesanan, Response.Listener<String> listener) {
-        super(Method.POST, PesananSelesai_URL, listener, null);
+    public PesananBatalRequest(String id_pesanan, Response.Listener<String> listener) {
+        super(Method.POST, PesananBatal_URL, listener, null);
         params = new HashMap<>();
-        params.put("idPesanan", String.valueOf(idPesanan));
+        params.put("id_pesanan",id_pesanan);
     }
 
     @Override
-    public Map<String, String> getParams()
-    {
+    public Map<String, String> getParams() {
         return params;
     }
 }
-

@@ -1,10 +1,9 @@
 package com.gagahblwgmail.jhotel_android_anggorogagahn;
 
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -22,50 +21,45 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        final EditText inputName = findViewById(R.id.inputName);
+        final EditText emailInputReg = findViewById(R.id.inputEmailReg);
+        final EditText passInputReg = findViewById(R.id.inputPassReg);
+        final Button buttonRegis = findViewById(R.id.buttonRegister);
 
-        final EditText nameInput = (EditText) findViewById(R.id.inputRegFullName);
-        final EditText emailInput = (EditText) findViewById(R.id.inputEmail);
-        final EditText passInput = (EditText) findViewById(R.id.inputPass);
-        final Button registButton = (Button) findViewById(R.id.buttonRegister);
-
-        registButton.setOnClickListener(new View.OnClickListener() {
+        buttonRegis.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final String name = nameInput.getText().toString();
-                final String email = emailInput.getText().toString();
-                final String password = passInput.getText().toString();
+            public void onClick(View V) {
+                final String name = inputName.getText().toString();
+                final String email = emailInputReg.getText().toString();
+                final String password = passInputReg.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONObject jsonResponse = new JSONObject(response);
-                            if(jsonResponse != null) {
+                if(TextUtils.isEmpty(name)){
+                    inputName.setError( "Name is required!" );
+                } else if(TextUtils.isEmpty(email)){
+                    emailInputReg.setError("Email is required!");
+                }else if(TextUtils.isEmpty(password)){
+                    passInputReg.setError("Password is required!");
+                }else{
+                    Response.Listener<String> responseListener = new Response.Listener<String> () {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                JSONObject jsonResponse = new JSONObject(response);
+                                if(jsonResponse!=null) {
+                                    AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
+                                    builder.setMessage("Registration Success").create().show();
+                                }
+                            } catch (JSONException e) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                builder.setMessage("Registration success.");
-                                builder.create();
-                                builder.show();
-
-                                Intent registIntLogin = new Intent(RegisterActivity.this, LoginActivity.class);
-                                RegisterActivity.this.startActivity(registIntLogin);
+                                builder.setMessage("Registration Failed.").create().show();
                             }
-                        } catch(JSONException e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                            builder.setMessage("Registration failed.");
-                            builder.create();
-                            builder.show();
                         }
-                    }
-                };
-
-                RegisterRequest registerRequest = new RegisterRequest(name, email, password, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                queue.add(registerRequest);
+                    };
+                    RegisterRequest registerRequest = new RegisterRequest(name,email,password,responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                    queue.add(registerRequest);
+                }
             }
         });
-
-
-
-
     }
 }

@@ -1,7 +1,8 @@
 package com.gagahblwgmail.jhotel_android_anggorogagahn;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,157 +13,142 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.android.volley.toolbox.Volley.newRequestQueue;
-
 public class SelesaiPesananActivity extends AppCompatActivity {
-
-    private int idCustomer;
-    private int idPesanan;
-    private double tariff;
-    private int jumlahHari;
-    private String tanggalPesan;
-
-    private Button selesaiButton;
-    private Button cancelButton;
-    private TextView id_pesanan;
-    private TextView tarif;
-    private TextView jumlah_hari;
-    private TextView tanggal_pesan;
+    private int currentUserId;
+    private int id_pesanan;
+    private int biaya_akhir;
+    private int jumlah_hari;
+    private String tanggal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selesai_pesanan);
 
-        Intent i = getIntent();
-        idCustomer = i.getIntExtra("idCustomer", 0);
+        Intent selesaiPesananIntent = getIntent();
+        Bundle b = selesaiPesananIntent.getExtras();
+        if(b!=null){
+            currentUserId = b.getInt("id_customer");
+        }
 
-        selesaiButton = findViewById(R.id.selesai);
-        cancelButton = findViewById(R.id.batal);
-        id_pesanan = findViewById(R.id.idPesanan);
-        tarif = findViewById(R.id.tariff);
-        jumlah_hari = findViewById(R.id.jumlahHari);
-        tanggal_pesan = findViewById(R.id.tanggalPesan);
-
-        selesaiButton.setVisibility(View.INVISIBLE);
-        cancelButton.setVisibility(View.INVISIBLE);
-        id_pesanan.setVisibility(View.INVISIBLE);
-        tanggal_pesan.setVisibility(View.INVISIBLE);
-        tarif.setVisibility(View.INVISIBLE);
-        jumlah_hari.setVisibility(View.INVISIBLE);
+        final Button batal = findViewById(R.id.batal);
+        final Button selesai = findViewById(R.id.selesai);
+        final Button kembaliButton = findViewById(R.id.kembali);
 
         fetchPesanan();
 
-        selesaiButton.setOnClickListener(new View.OnClickListener() {
+        kembaliButton.setVisibility(View.INVISIBLE);
+
+        batal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View V) {
+                final String id = String.valueOf(id_pesanan);
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            if(jsonResponse != null) {
+                            if (jsonResponse != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SelesaiPesananActivity.this);
-                                builder.setMessage("Pesanan berhasil.");
-                                builder.create();
-                                builder.show();
-
-                                selesaiButton.setVisibility(View.INVISIBLE);
+                                builder.setMessage("Pesanan Berhasil Dibatlkan").create().show();
                             }
-                        } catch(JSONException e) {
+                        } catch (JSONException e) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(SelesaiPesananActivity.this);
-                            builder.setMessage("Pesanan gagal.");
-                            builder.create();
-                            builder.show();
+                            builder.setMessage("Pesanan Gagal Dibatalkan.").create().show();
                         }
-
-
                     }
                 };
-
-                PesananSelesaiRequest pesananSelesaiRequest = new PesananSelesaiRequest(idPesanan, responseListener);
+                PesananBatalRequest batalRequest = new PesananBatalRequest(id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(SelesaiPesananActivity.this);
-                queue.add(pesananSelesaiRequest);
+                queue.add(batalRequest);
+                batal.setVisibility(View.INVISIBLE);
+                selesai.setVisibility(View.INVISIBLE);
+                kembaliButton.setVisibility(View.VISIBLE);
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        selesai.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View V) {
+                final String id = String.valueOf(id_pesanan);
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            if(jsonResponse != null) {
+                            if (jsonResponse != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SelesaiPesananActivity.this);
-                                builder.setMessage("Pesanan berhasil dibatalkan.");
-                                builder.create();
-                                builder.show();
-
-                                selesaiButton.setVisibility(View.INVISIBLE);
+                                builder.setMessage("Pesanan Berhasil Diselesaikan").create().show();
                             }
-                        } catch(JSONException e) {
+                        } catch (JSONException e) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(SelesaiPesananActivity.this);
-                            builder.setMessage("Pesanan gagal dibatalkan.");
-                            builder.create();
-                            builder.show();
+                            builder.setMessage("Pesanan Gagal Diselesaikan").create().show();
                         }
-
-
                     }
                 };
-
-                PesananBatalRequest pesananBatalRequest = new PesananBatalRequest(idPesanan, responseListener);
+                PesananSelesaiRequest selesaiRequest = new PesananSelesaiRequest(id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(SelesaiPesananActivity.this);
-                queue.add(pesananBatalRequest);
+                queue.add(selesaiRequest);
+                batal.setVisibility(View.INVISIBLE);
+                selesai.setVisibility(View.INVISIBLE);
+                kembaliButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        kembaliButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SelesaiPesananActivity.this, DashboardActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
             }
         });
     }
 
-    protected void fetchPesanan()
-    {
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+    public void fetchPesanan(){
+        final String id_customer = String.valueOf(currentUserId);
+        final TextView idPesanan = findViewById(R.id.idPesanan);
+        final TextView biaya = findViewById(R.id.biaya);
+        final TextView tanggal_pesan = findViewById(R.id.tanggal);
+        final TextView hari = findViewById(R.id.hari);
+
+        Response.Listener<String> responseListener = new Response.Listener<String> () {
             @Override
             public void onResponse(String response) {
-                try {
-                    JSONArray jsonResponse = new JSONArray(response);
-                    JSONObject pesanan = jsonResponse.getJSONObject(0);
-                    if(jsonResponse != null) {
-                        selesaiButton.setVisibility(View.VISIBLE);
-                        cancelButton.setVisibility(View.VISIBLE);
-                        id_pesanan.setVisibility(View.VISIBLE);
-                        tanggal_pesan.setVisibility(View.VISIBLE);
-                        tarif.setVisibility(View.VISIBLE);
-                        jumlah_hari.setVisibility(View.VISIBLE);
+                try{
+                    JSONObject jsonResponse = new JSONObject(response);
+                    id_pesanan = jsonResponse.getInt("id");
+                    biaya_akhir = jsonResponse.getInt("biaya");
+                    jumlah_hari = jsonResponse.getInt("jumlahHari");
+                    tanggal = jsonResponse.getString("tanggalPesan");
 
-                        idPesanan = pesanan.getInt("id");
-                        tanggalPesan = pesanan.getString("tanggalPesan");
-                        tariff = pesanan.getJSONObject("room").getDouble("dailyTariff");
-                        jumlahHari = pesanan.getInt("jumlahHari");
-
-                        id_pesanan.setText(String.valueOf(pesanan.getInt("id")));
-                        tanggal_pesan.setText(pesanan.getString("tanggalPesan"));
-                        tarif.setText(String.valueOf(pesanan.getJSONObject("room").getDouble("dailyTariff")));
-                        jumlah_hari.setText(String.valueOf(pesanan.getInt("jumlahHari")));
-                    } else {
-                        Intent intBackMenu = new Intent(SelesaiPesananActivity.this, MenuActivity.class);
-                        SelesaiPesananActivity.this.startActivity(intBackMenu);
-                    }
-
+                    idPesanan.setText(String.valueOf(id_pesanan));
+                    biaya.setText(String.valueOf(biaya_akhir));
+                    hari.setText(String.valueOf(jumlah_hari));
+                    tanggal_pesan.setText(tanggal);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(SelesaiPesananActivity.this);
+                    builder.setMessage("Belum ada pesanan!")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent gagalInt = new Intent(SelesaiPesananActivity.this, DashboardActivity.class);
+                                    gagalInt.putExtra("id_customer", currentUserId);
+                                    SelesaiPesananActivity.this.startActivity(gagalInt);
+                                }
+                            });
+                    android.support.v7.app.AlertDialog alert = builder.create();
+                    alert.show();
                 }
-
             }
         };
-
-        PesananFetchRequest pesananFetchRequest = new PesananFetchRequest(String.valueOf(idCustomer), responseListener);
-        RequestQueue queue = newRequestQueue(SelesaiPesananActivity.this);
-        queue.add(pesananFetchRequest);
+        PesananFetchRequest fetchPesananRequest = new PesananFetchRequest(id_customer, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(SelesaiPesananActivity.this);
+        queue.add(fetchPesananRequest);
     }
 }

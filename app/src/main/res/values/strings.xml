@@ -1,3 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">JHotel_Android_AnggoroGagahN</string>
+
+    <string name="app_name">JHotel_Android_Luthfi</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="halaman_pesan">Halaman Pesan</string>
+    <string name="info2">Saxophone</string>
+    <string name="acara">Acara</string>
+    <string name="tempat">Tempat</string>
+    <string name="todo">TODO</string>
+    <string name="lihat_pesanan">Lihat Pesanan</string>
+    <string name="info_hotel">Info Hotel</string>
+    <string name="gallery">Gallery</string>
+    <string name="logout">Logout</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="register">Register</string>
+    <string name="full_name">Full Name</string>
+    <string name="register_here">register here!</string>
+    <string name="textview">TextView</string>
+    <string name="total">Total :</string>
+    <string name="tariff">Tariff :</string>
+    <string name="durasi">Durasi :</string>
+    <string name="room_number">Room Number :</string>
+    <string name="hitung">Hitung</string>
+    <string name="pesan">Pesan</string>
+    <string name="pesanan">Pesanan</string>
+    <string name="id_pesanan">ID Pesanan:</string>
+    <string name="biaya">Biaya:</string>
+    <string name="jumlah_hari">Jumlah Hari:</string>
+    <string name="tanggal">Tanggal:</string>
+    <string name="batal">Batal</string>
+    <string name="selesai">Selesai</string>
+    <string name="kembali">Kembali</string>
+    <string name="jhotel">JHOTEL</string>
+    <string name="nama_hotel">Nama Hotel :</string>
+    <string name="lokasi">Lokasi :</string>
+    <string name="bintang">Bintang :</string>
+    <string name="nomor_kamar">Nomor Kamar :</string>
+    <string name="status_kamar">Status Kamar :</string>
+    <string name="tarif_kamar">Tarif Kamar :</string>
+    <string name="tipe_kamar">Tipe Kamar :</string>
+    <string name="pesan_kamar_hotel">Pesan Kamar Hotel</string>
+    <string name="informasi_hotel">Informasi Hotel</string>
 </resources>

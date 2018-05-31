@@ -1,91 +1,164 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/durasi_hari"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BuatPesananActivity">
+    android:layout_gravity="center"
+    tools:context="com.gagahblwgmail.jhotel_android_anggorogagahn.BuatPesananActivity">
 
-    <TextView
-        android:id="@+id/tariff"
-        android:layout_width="100dp"
-        android:layout_height="28dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="98dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center_horizontal">
 
-    <TextView
-        android:id="@+id/total_biaya"
-        android:layout_width="93dp"
-        android:layout_height="26dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="209dp" />
+            <TextView
+                android:id="@+id/registerClickable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pesan_kamar_hotel"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:ignore="UselessParent">
 
-    <TextView
-        android:id="@+id/room_number"
-        android:layout_width="95dp"
-        android:layout_height="30dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="48dp" />
+            <TextView
+                android:id="@+id/staticRoomNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="left"
+                android:text="@string/room_number"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                tools:ignore="RtlHardcoded" />
 
-    <Button
-        android:id="@+id/hitung"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HITUNG"
-        tools:layout_editor_absoluteX="133dp"
-        tools:layout_editor_absoluteY="265dp" />
+            <TextView
+                android:id="@+id/room_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_toEndOf="@id/staticRoomNumber"
+                android:text="@string/textview"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/pesan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PESAN"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="354dp" />
+            <TextView
+                android:id="@+id/staticTariff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/staticRoomNumber"
+                android:layout_marginTop="20dp"
+                android:text="@string/tariff"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Room Number :"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="50dp" />
+            <TextView
+                android:id="@+id/tariff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/staticRoomNumber"
+                android:layout_below="@id/room_number"
+                android:text="@string/textview"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tariff :"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="98dp" />
+            <TextView
+                android:id="@+id/staticDurasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/staticTariff"
+                android:layout_marginTop="20dp"
+                android:text="@string/durasi"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Durasi"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="159dp" />
+            <EditText
+                android:id="@+id/durasi_hari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tariff"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/staticRoomNumber"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:textColor="@color/white"
+                tools:ignore="LabelFor" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total :"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="209dp" />
+            <TextView
+                android:id="@+id/staticTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/durasi_hari"
+                android:layout_marginTop="20dp"
+                android:text="@string/total"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="125dp"
-        android:layout_height="31dp"
-        android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="159dp" />
+            <TextView
+                android:id="@+id/total_biaya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/staticRoomNumber"
+                android:layout_below="@id/durasi_hari"
+                android:text="@string/textview"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-</android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/hitung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/total_biaya"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="80dp"
+                android:text="@string/hitung"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"/>
+
+            <Button
+                android:id="@+id/pesan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/total_biaya"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/pesan"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/kembali"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/total_biaya"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/kembali"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
