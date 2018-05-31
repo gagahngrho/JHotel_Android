@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="berita">Berita</string>
+    <string name="teman">Teman</string>
+    <string name="foto">Foto</string>
+    <string name="acara">Acara</string>
+    <string name="tempat">Tempat</string>
+    <string name="pesan">Pesan</string>
+    <string name="lihat_pesanan">Lihat Pesanan</string>
+    <string name="info_hotel">Info Hotel</string>
+    <string name="gallery">Gallery</string>
+    <string name="logout">Logout</string>
+    <string name="textview">Textview</string>
+</resources>
